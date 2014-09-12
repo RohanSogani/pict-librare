@@ -1,5 +1,5 @@
 
-
+var assert = require('assert'); 
 var mongo = require('mongodb') ;
 
 var Server = mongo.Server,Db = mongo.Db, BSON = mongo.BSONPure ; 
@@ -26,13 +26,52 @@ db.open(function(err,db){
 exports.findByTitle = function(req,res){
     var query  = decodeURIComponent(req.query.q) ; 
     console.log('Retrieving title:'+query) ; 
-    db.collection('books',function(err,collection){
+  /*  db.collection('books',function(err,collection){
             collection.find({'title':query}).toArray(function(err,items){
                 res.send(items) ; 
             });
-        });
+        });*/
+
+     db.ensureIndex("books",{
+                             title:"text",
+                             author:"text",
+                             publication:"text"
+
+              },function(err,indexname){
+                       assert.equal(null,err);
+                  });
+
+      db.collection('books').find({
+            "$text":{
+                "$search":query
+
+            }
+        },
+        {
+            author:1,
+
+            title:1,
+
+            _id:1,
+
+            textScore:{
+                $meta:"textScore"
+            }
+        },
+        {
+             sort:{
+                textScore:{
+                    $meta:"textScore"
+                }
+             }
+        }
     
+    ).toArray(function(err,items){
+        res.send(items);
+    });
+
 }
+
 
 exports.addBook = function(req,res){
     var book = req.body ; 
@@ -50,6 +89,45 @@ exports.addBook = function(req,res){
         });
 }
 
+
+exports.updateBook= function(req,res){
+    var id = req.params.id ; 
+    var book = req.body ; 
+    console.log('Updating book:'+id);
+    console.log(JSON.stringify(book));
+
+    db.collection('books',function(err,collection){
+        collection.update({'_id':new BSON.ObjectID(id)},book,{safe:true},function(err,result){
+            if(err){
+                console.log('Error updating book:'+err);
+            }
+            else{
+                console.log(''+result+'document(s) updated');
+                res.send(book);
+            }
+
+        });
+    }
+    );
+}
+
+exports.deleteBook = function(req,res){
+    var id  = req.params.id ; 
+    console.log('Deleting wine:'+id);
+
+    db.collection('book',function(err,collection){
+            collection.remove({'_id':new BSON.ObjectID(id)},{safe:true},function(err,result){
+                if(err){
+                    res.send({'error':'An error has occured -'+err});
+                }
+
+                else{
+                    console.log(''+result+'document(s) deleted' );
+                    res.send(req.body);
+                }
+            });
+         });
+}
 
 
 var populateDB = function(){

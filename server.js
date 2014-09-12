@@ -1,6 +1,6 @@
 var express = require('express')  , 
 books = require('./routes/books'); 
-
+//var assert = require('assert');
 var app = express(); 
 
 app.configure(function(){
@@ -13,9 +13,9 @@ app.get('/books/search',books.findByTitle);
   
 app.post('/books',books.addBook) ; 
 
-//app.put('/wines/:id',wines.updateWine); 
+app.put('/books/:id',books.updateBook); 
 
-//app.delete('/wines/:id',wines.deleteWine) ; 
+app.delete('/books/:id',books.deleteBook) ; 
 
 
 
