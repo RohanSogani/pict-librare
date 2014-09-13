@@ -17,7 +17,7 @@ app.put('/books/:id',books.updateBook);
 
 app.delete('/books/:id',books.deleteBook) ; 
 
-
+app.get('/books',books.findAll);
 
 app.listen(3000) ; 
 console.log('Listening on port 3000') ; 

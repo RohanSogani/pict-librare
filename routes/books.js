@@ -22,6 +22,13 @@ db.open(function(err,db){
     }
 });
 
+exports.findAll = function(req,res){ 
+    db.collection('books',function(err,collection){ 
+            collection.find().toArray(function(err,items){
+                        res.send(items);
+                })
+        });
+}
 
 exports.findByTitle = function(req,res){
     var query  = decodeURIComponent(req.query.q) ; 
@@ -35,7 +42,8 @@ exports.findByTitle = function(req,res){
      db.ensureIndex("books",{
                              title:"text",
                              author:"text",
-                             publication:"text"
+                             publication:"text",
+                             categories:"text"
 
               },function(err,indexname){
                        assert.equal(null,err);
