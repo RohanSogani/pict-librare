@@ -26,7 +26,7 @@ public class SearchResultsFragment extends ListFragment {
 	public static final String TAG_publication="publication";
 	public static final String TAG_INFO = "SearchResultsFragment";
 	public static final String ENDPOINT = "http://10.0.2.2:3000";
-	ArrayList<HashMap<String,String>> BookList ; 
+	ArrayList<HashMap<String,String>> BookList ;//add a model instead of hashmap 
 
 	
 	public static SearchResultsFragment newInstance(String query){

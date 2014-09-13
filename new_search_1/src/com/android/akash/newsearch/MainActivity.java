@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -40,6 +41,9 @@ public class MainActivity extends FragmentActivity implements SearchView.OnQuery
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
 	//private LinearLayout linearLayout;
+	FragmentManager fm = getSupportFragmentManager(); 
+	
+	Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +57,6 @@ public class MainActivity extends FragmentActivity implements SearchView.OnQuery
 		Log.d("Intent from search","Got query");
 		if(query != null){
 			
-		FragmentManager fm = getSupportFragmentManager(); 
-		
-		Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 		
 		if(fragment == null){
 			fragment = SearchResultsFragment.newInstance(query);
@@ -111,9 +112,45 @@ public class MainActivity extends FragmentActivity implements SearchView.OnQuery
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		
+		mDrawerList.setOnItemClickListener(new SlideMenuCLickListener());
 		
 			
 		
+	}
+	
+	private class SlideMenuCLickListener implements ListView.OnItemClickListener{
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// TODO Auto-generated method stub
+			displayView(position);
+		}
+		
+	}
+	
+	private void displayView(int position){
+		Fragment fragment = null;
+		switch(position){
+		
+			case 1:
+				fragment = new BrowseResultsFragment();
+				break;
+				
+		}
+		
+		if(fragment != null){
+			fm.beginTransaction()
+				.replace(R.id.fragmentContainer, fragment)
+				.commit();
+			mDrawerList.setItemChecked(position, true);
+            mDrawerList.setSelection(position);
+            setTitle(navMenuTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+		}
+		else{
+			Log.e("MainActivity","Error in creating fragment");
+		}
 	}
 
 	@Override

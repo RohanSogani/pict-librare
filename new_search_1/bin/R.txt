@@ -258,12 +258,13 @@ int id action_context_bar 0x7f06001d
 int id action_menu_divider 0x7f060016
 int id action_menu_presenter 0x7f060017
 int id action_mode_close_button 0x7f060024
-int id action_settings 0x7f060041
+int id action_settings 0x7f060042
 int id activity_chooser_view_content 0x7f060025
 int id always 0x7f06000b
 int id beginning 0x7f060011
 int id book_author 0x7f060040
 int id book_title 0x7f06003f
+int id category 0x7f060041
 int id checkbox 0x7f06002d
 int id collapseActionView 0x7f06000d
 int id default_activity_button 0x7f060028
@@ -291,7 +292,7 @@ int id normal 0x7f060000
 int id progress_circular 0x7f060018
 int id progress_horizontal 0x7f060019
 int id radio 0x7f06002f
-int id search 0x7f060042
+int id search 0x7f060043
 int id search_badge 0x7f060032
 int id search_bar 0x7f060031
 int id search_button 0x7f060033
@@ -342,7 +343,8 @@ int layout abc_simple_decor 0x7f030017
 int layout activity_fragment 0x7f030018
 int layout drawer_list_item 0x7f030019
 int layout fragment_book_list 0x7f03001a
-int layout support_simple_spinner_dropdown_item 0x7f03001b
+int layout fragment_category_list 0x7f03001b
+int layout support_simple_spinner_dropdown_item 0x7f03001c
 int menu main 0x7f0e0000
 int menu options_menu 0x7f0e0001
 int string abc_action_bar_home_description 0x7f0b0001
